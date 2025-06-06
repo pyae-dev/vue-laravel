@@ -2,23 +2,29 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rules;
-use Illuminate\Validation\ValidationException;
+use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
+use App\Services\PasswordService;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Validation\ValidationException;
 
 class NewPasswordController extends Controller
 {
-    /**
-     * Show the password reset page.
-     */
+    protected $passwordService;
+
+    public function __construct(PasswordService $passwordService){
+        $this->passwordService = $passwordService;
+    }
+    
     public function create(Request $request): Response
     {
         return Inertia::render('auth/ResetPassword', [
@@ -32,38 +38,55 @@ class NewPasswordController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $request->validate([
             'token' => 'required',
-            'email' => 'required|email',
+            
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user) use ($request) {
-                $user->forceFill([
-                    'password' => Hash::make($request->password),
-                    'remember_token' => Str::random(60),
-                ])->save();
+        $reset = DB::table('password_reset_tokens')->get()->first(function ($record) use ($request) {
+            return Hash::check($request->token, $record->token);
+        });
 
-                event(new PasswordReset($user));
-            }
-        );
-
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's home authenticated view. If there is an error we can
-        // redirect them back to where they came from with their error message.
-        if ($status == Password::PasswordReset) {
-            return to_route('login')->with('status', __($status));
+        if (!$reset) {
+            return back()->withErrors(['token' => 'Invalid or expired token.']);
         }
+    
+        $user = User::where('email', $reset->email)->first();
+        if (!$user) {
+            return back()->withErrors(['email' => 'User not found.']);
+        }
+    
+        $this->passwordService->resetPassword($user, $request->password);
+    
+        DB::table('password_reset_tokens')->where('email', $reset->email)->delete();
 
-        throw ValidationException::withMessages([
-            'email' => [__($status)],
-        ]);
+        // return Inertia::render(route('login'));
+        return to_route('home');
+
+        
+        // $status = Password::reset(
+        //     $request->only( 'password', 'password_confirmation', 'token'),
+        //     function ($user) use ($request) {
+        //         $user->forceFill([
+        //             'password' => Hash::make($request->password),
+        //             'remember_token' => Str::random(60),
+        //         ])->save();
+
+        //         event(new PasswordReset($user));
+        //     }
+        // );
+
+        // if ($status == Password::PasswordReset) {
+        //     return to_route('login')->with('status', __($status));
+        // }
+
+        // throw ValidationException::withMessages([
+        //     'email' => [__($status)],
+        // ]);
+
+
     }
 }

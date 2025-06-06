@@ -8,11 +8,14 @@ interface NavItem {
     title: string;
     url: string;
     icon: Component;
+    children?: NavItem[];
 }
 
 defineProps<{
     items: NavItem[];
 }>();
+
+
 
 const page = usePage<SharedData>();
 </script>

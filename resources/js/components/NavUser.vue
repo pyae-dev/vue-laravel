@@ -21,9 +21,9 @@ const user = page.props.auth.user as User;
                         
                         <Link class="block w-full" method="post" :href="route('logout')" as="button">
                         <LogOut class=" ml-2 w-5 h-5" />
-                        
                         </Link>
-                        <ChevronsUpDown class="ml-auto size-4" />
+                        <!-- <ChevronsUpDown class="ml-auto size-4" /> -->
+                        
                     </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent class="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg" side="bottom"

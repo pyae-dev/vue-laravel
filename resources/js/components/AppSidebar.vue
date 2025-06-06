@@ -13,6 +13,18 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: '/dashboard',
         icon: LayoutGrid,
+        children: [
+            {
+                title: 'New Employee',
+                href: '',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Employee List',
+                href: '',
+                icon: LayoutGrid,
+            }
+        ]
     },
     {
         title: 'Employee',
@@ -52,7 +64,7 @@ const mainNavItems: NavItem[] = [
         </SidebarContent>
 
         <SidebarFooter>
-            <NavUser />
+            <NavUser /> 
         </SidebarFooter>
     </Sidebar>
     <slot />
