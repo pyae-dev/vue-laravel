@@ -57,8 +57,6 @@ const submit = () => {
 
                     </div>
 
-
-
                     <div class="my-6 flex items-center justify-start">
                         <Button class="w-full bg-[#7ADDB4] dark:bg-[#7ADDB4] border border-transparent  font-semibold text-xs uppercase tracking-widest hover:bg-[#8BFFCF] dark:hover:bg-[#8BFFCF] active:bg-[#8BFFCF] dark:active:bg-[#8BFFCF] 
                         focus:outline-none  transition ease-in-out duration-150 rounded-full"

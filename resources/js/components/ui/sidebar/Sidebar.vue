@@ -41,7 +41,7 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
             data-sidebar="sidebar"
             data-mobile="true"
             :side="side"
-            class="w-[--sidebar-width] bg-red-600 p-0  [&>button]:hidden"
+            class="w-[--sidebar-width] bg-[#D7F1E3] p-0  [&>button]:hidden"
             :style="{
                 '--sidebar-width': SIDEBAR_WIDTH_MOBILE,
             }"
@@ -89,9 +89,16 @@ const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
             "
             v-bind="$attrs"
         >
-            <div
+            <!-- <div
                 data-sidebar="sidebar"
                 class="flex h-full w-full flex-col bg-[#D7F1E3] group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow"
+            >
+                <slot />
+            </div> -->
+
+            <div
+                data-sidebar="sidebar"
+                class="flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow"
             >
                 <slot />
             </div>

@@ -13,28 +13,66 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: '/dashboard',
         icon: LayoutGrid,
-        children: [
-            {
-                title: 'New Employee',
-                href: '',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Employee List',
-                href: '',
-                icon: LayoutGrid,
-            }
-        ]
+
     },
     {
         title: 'Employee',
         href: '/dashboard',
         icon: LayoutGrid,
+        children: [
+            {
+                title: 'New Employee',
+                href: '/dashboard',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Employee List',
+                href: '/dashboard',
+                icon: LayoutGrid,
+            }
+        ]
     },
     {
         title: 'Departments',
         href: '/dashboard',
         icon: LayoutGrid,
+        children: [
+            {
+                title: 'All Departments',
+                href: '/dashboard',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Project Management',
+                href: '/dashboard',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'HR-Admin',
+                href: '/dashboard',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Business Development',
+                href: '/dashboard',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Account & Finance',
+                href: '/dashboard',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Digital Marketing',
+                href: '/dashboard',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Cloud',
+                href: '/dashboard',
+                icon: LayoutGrid,
+            },
+        ]
     },
     {
         title: 'Announcements',
